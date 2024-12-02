@@ -67,6 +67,84 @@ Now to install Nano, enter the command:
 
 choco install nano -y
 
-### Create App.ts file using nano
+Create App.ts file using nano
 
 $ nano src/app.ts
+
+Open up the app.ts file with a text editor of your choice and paste in the following code snippet:
+
+import express from 'express';
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+res.send('Hello World!');
+});
+
+app.listen(port, () => {
+return console.log(`Express is listening at http://localhost:${port}`);
+});
+
+The code above creates a Node Server that listens on the port 3000 for requests. To run the app, you first need to compile it to JavaScript using the following command:
+$ npx tsc
+
+This uses the configuration file we created in the previous step to determine how to compile the code and where to place the result. In our case, the JavaScript is output to the dist directory.
+
+Run the JavaScript output with node:
+$ node dist/app.js
+
+OutputExpress is listening at http://localhost:3000
+
+## Step 4 — Configuring Typescript Linting with eslin
+
+$ npm install --save-dev eslint
+
+Then, run eslint’s initialization command to interactively set up the project:
+
+$ npm init @eslint/config@latest
+
+Finally, you will be prompted to install some additional eslint libraries. Choose Yes. The process will finish and you’ll be left with the following configuration file:
+
+module.exports = {
+env: {
+es2021: true,
+node: true,
+},
+extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+parser: '@typescript-eslint/parser',
+parserOptions: {
+ecmaVersion: 13,
+sourceType: 'module',
+},
+plugins: ['@typescript-eslint'],
+rules: {},
+}
+
+Run the linter to check all files with the .ts TypeScript extension:
+$ npx eslint . --ext .ts
+
+## Step 5 — Updating the package.json File
+
+Open the package.json file and update it accordingly:
+
+{
+"name": "nodejs-typescript",
+"version": "1.0.0",
+"description": "NodeJS project with Typescript",
+"keywords": [],
+"author": "",
+"license": "ISC",
+"main": "dist/app.js",
+"scripts": {
+"start": "tsc && node dist/app.js",
+"lint": "eslint . --ext .ts",
+"test": "echo \"Error: no test specified\" && exit 1"
+},
+"dependencies": {
+"express": "4.21.1"
+},
+"devDependencies": {
+"typescript": "^5.7.2",
+"@types/express": "^5.0.0"
+}
+}
