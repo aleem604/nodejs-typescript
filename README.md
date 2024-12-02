@@ -1,8 +1,8 @@
-# nodejs-typescript
+### nodejs-typescript
 
-#NodeJS project using Typescript
+# NodeJS project using Typescript
 
-##Step 1 — Initializing the Project
+## Step 1 — Initializing the Project
 
 $ mkdir node_project
 $ cd node_project
@@ -12,7 +12,7 @@ $ npm init -y
 
 The -y flag tells npm init to automatically say “yes” to the defaults. You can always update this information later in your package.json file.
 
-Step 2 — Configuring the TypeScript Compiler
+## Step 2 — Configuring the TypeScript Compiler
 
 $ npm install --save-dev typescript
 
@@ -42,7 +42,7 @@ Then paste in the following JSON:
 "lib": ["es2015"]
 }
 
-Step 3 — Creating a Minimal TypeScript Express Server
+## Step 3 — Creating a Minimal TypeScript Express Server
 
 Now, it is time to install the Express framework and create a minimal server:
 $ npm install --save express@4.17.1
@@ -67,6 +67,6 @@ Now to install Nano, enter the command:
 
 choco install nano -y
 
-## Create App.ts file using nano
+### Create App.ts file using nano
 
 $ nano src/app.ts
