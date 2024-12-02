@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-typescript",
+  "version": "1.0.0",
+  "description": "NodeJS project with Typescript",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "lint": "eslint . --ext .ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "4.21.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/express": "^5.0.0"
+  }
+}
