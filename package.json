@@ -1,34 +1,24 @@
 {
   "name": "nodejs-typescript",
   "version": "1.0.0",
-  "description": "NodeJS project with Typescript",
-  "keywords": [],
+  "description": "$ mkdir node_project\r $ cd node_project",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "ts-node src/index.ts",
+    "start:dev": "nodemon ./src/index.ts"
+  },
   "author": "",
   "license": "ISC",
-  "main": "dist/app.js",
-  "scripts": {
-    "build-sass": "sass src/public/css/main.scss dist/public/css/main.css",
-    "build-ts": "tsc",
-    "build": "npm run build-sass && npm run build-ts && npm run lint && npm run copy-static-assets",
-    "copy-static-assets": "ts-node copyStaticAssets.ts",
-    "debug": "npm run build && npm run watch-debug",
-    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-    "serve-debug": "nodemon --inspect dist/app.js",
-    "serve": "node dist/app.js",
-    "start": "npm run serve",
-    "test": "jest --forceExit --coverage --verbose",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\"",
-    "watch-node": "nodemon dist/app.js",
-    "watch-sass": "sass --watch src/public/css/main.scss dist/public/css/main.css",
-    "watch-test": "npm run test -- --watchAll",
-    "watch-ts": "tsc -w",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\""
-  },
-  "dependencies": {
-    "express": "4.21.1"
-  },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.8.1",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
   }
 }
