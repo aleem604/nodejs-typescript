@@ -1,16 +1,24 @@
 import express, { Request, Response, NextFunction } from "express";
 
+import bodyParser from "body-parser";
+
 const app = express();
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.send(`<h1>Hello from Express()`);
-  next();
+app.use(bodyParser.urlencoded());
+
+app.get("/add-product", (req, res, next) => {
+  res.send(
+    `<form action="/product" method="POST"><input type="text" name="title" /> <button type="submit">Submit</button></form>`
+  );
 });
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
+app.post("/product", (req, res, next) => {
+  console.log(req.body.title);
+  res.redirect("/");
 });
 
-//const server = http.createServer(app);
+app.get("/", (req, res, next) => {
+  res.send("<h1>Hello from Express</h1>");
+});
 
 app.listen(3000);
