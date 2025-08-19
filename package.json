@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
     "nodemon": "^3.1.10",
@@ -20,6 +21,9 @@
   },
   "dependencies": {
     "body-parser": "^2.2.0",
-    "express": "^5.1.0"
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1",
+    "pug": "^3.0.3"
   }
 }
