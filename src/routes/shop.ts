@@ -23,9 +23,13 @@ const router = express.Router();
 //hbs
 router.get("/", (req: Request, res: Response) => {
   res.render("index", {
-    title: "Shop Home",
+    title: "Shop",
     message: "Welcome to the Shop!",
-    products : products
+    products : products,
+    path: '/',
+    hasProducts: products.length > 0,
+    activeShop: true,
+    productCSS: true
   });
 });
 

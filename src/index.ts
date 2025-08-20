@@ -13,12 +13,14 @@ app.engine("hbs", engine({
   layoutsDir: path.join(__dirname, "views/hbs/layouts"),
   partialsDir: path.join(__dirname, "views/hbs/partials"),
   helpers: {
+    gt: (a: number, b: number) => a > b,
+    length: (arr: any[]) => arr.length,
     year: () => new Date().getFullYear(),
     upper: (str: string) => str.toUpperCase()
   }
 }));
-app.set("view engine", "hbs");
 
+app.set("view engine", "hbs");
 // app.set("view engine", "ejs");
 // app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views",'hbs'));
