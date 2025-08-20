@@ -1,11 +1,14 @@
-import express from "express";
-import path from "path";
+import express, {Request, Response} from "express";
 import { products } from './../routes/admin';
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-    console.log(products);
-  res.sendFile(path.join(__dirname, "../views", "index.html"));
+
+router.get("/", (req: Request, res: Response) => {
+  res.render("ejs/index", {
+    title: "Shop Home",
+    message: "Welcome to the Shop!",
+    products : products
+  });
 });
 
 
