@@ -1,0 +1,13 @@
+
+  <main>
+    <h1>{{message}}</h1>
+    <p>List of all the products...</p>
+    <ul>
+    {{#each products}}
+      <li>
+        {{title}} - ${{price}}
+      </li>
+    {{/each}}
+    </ul>
+  </main>
+
