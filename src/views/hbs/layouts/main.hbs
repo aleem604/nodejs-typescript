@@ -5,12 +5,13 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/product.css">
   <link rel="stylesheet" href="/css/styles.css">
-
+  <title>From HBS Views</title>
 </head>
 <body>
 {{> header title=title }}
 
   <main>
+    <h1>{{title}}</h1>
     {{{body}}}   <!-- Page-specific content goes here -->
   </main>
 

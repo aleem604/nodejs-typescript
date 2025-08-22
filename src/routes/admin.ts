@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import rootDir from '../util/path';
+import { addProduct, postAddProduct } from "./../controllers/AdminController";
 const router = express.Router();
 
 export const products: any[] = [];
@@ -38,15 +39,9 @@ export const products: any[] = [];
 // });
 
 ///hbs
-router.get("/add-product", (req, res, next) => {
-  res.render("add-product", {
-    pageTitle: "Add Product"});
-});
+router.get("/add-product", addProduct);
 
-router.post("/product", (req, res, next) => {
-  products.push({ title: req.body.title, price: req.body.price });
-  res.redirect("/");
-});
+router.post("/add-product", postAddProduct);
 
 
 

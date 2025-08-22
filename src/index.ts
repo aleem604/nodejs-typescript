@@ -4,6 +4,10 @@ import adminRoutes from "./routes/admin";
 import shopRoutes from "./routes/shop";
 import { engine } from "express-handlebars";
 import path from "path";
+import open from "open";
+import { exec } from "child_process";
+import { get } from "http";
+import { get404Page } from "./controllers/ErrorController";
 
 const app = express();
 
@@ -30,9 +34,22 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+app.use(get404Page);
+
+
+app.listen(3000, async () => {
+  console.log("Server is running on http://localhost:3000");
+ const url = "http://localhost:3000";
+
+//  switch (process.platform) {
+//     case "darwin": // Mac
+//       exec(`open ${url}`);
+//       break;
+//     case "win32": // Windows
+//       exec(`start ${url}`);
+//       break;
+//     case "linux": // Linux
+//       exec(`xdg-open ${url}`);
+//       break;
+//   }
 });
-
-
-app.listen(3000);

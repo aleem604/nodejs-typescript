@@ -1,5 +1,6 @@
 import express, {Request, Response} from "express";
 import { products } from './../routes/admin';
+import { getAddProduct } from "./../controllers/ProductController";
 const router = express.Router();
 
 
@@ -21,17 +22,7 @@ const router = express.Router();
 // });
 
 //hbs
-router.get("/", (req: Request, res: Response) => {
-  res.render("index", {
-    title: "Shop",
-    message: "Welcome to the Shop!",
-    products : products,
-    path: '/',
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true
-  });
-});
+router.get("/", getAddProduct);
 
 
 export default router;
