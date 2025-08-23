@@ -1,27 +1,25 @@
 import express, {Request, Response} from "express";
-import { getAddProduct } from "./../controllers/ProductController";
+import { getIndex, getProducts, getProduct, getCart, postCart, postCartDeleteProduct, getOrders, getCheckout } from "./../controllers/ProductController";
+
 const router = express.Router();
 
 
-// router.get("/", (req: Request, res: Response) => {
-//   res.render("ejs/index", {
-//     title: "Shop Home",
-//     message: "Welcome to the Shop!",
-//     products : products
-//   });
-// });
+router.get('/', getIndex);
 
-//pug
-// router.get("/", (req: Request, res: Response) => {
-//   res.render("pug/index", {
-//     title: "Shop Home",
-//     message: "Welcome to the Shop!",
-//     products : products
-//   });
-// });
+router.get('/products', getProducts);
 
-//hbs
-router.get("/", getAddProduct);
+router.get('/products/:productId', getProduct);
+
+router.get('/cart', getCart);
+
+router.post('/cart', postCart);
+
+router.post('/cart-delete-item', postCartDeleteProduct);
+
+router.get('/orders', getOrders);
+
+router.get('/checkout', getCheckout);
+
 
 
 export default router;

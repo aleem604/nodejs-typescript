@@ -1,47 +1,27 @@
 import express from "express";
-import path from "path";
-import rootDir from '../util/path';
-import { addProduct, postAddProduct } from "./../controllers/AdminController";
+import {
+  getAddProduct,
+  getProducts,
+  postAddProduct,
+  getEditProduct,
+  postEditProduct,
+  postDeleteProduct,
+} from "./../controllers/AdminController";
 const router = express.Router();
 
-// router.get("/add-product", (req, res, next) => {
-//   res.sendFile(path.join(rootDir(), "views", "add-product.html"));
-// });
+// /admin/add-product => GET
+router.get("/add-product", getAddProduct);
 
-// router.post("/product", (req, res, next) => {
-//   products.push({ title: req.body.title });
-//   console.log(products);
-//   res.redirect("/");
-// }); 
+// /admin/products => GET
+router.get("/products", getProducts);
 
-///ejs
-// router.get("/add-product", (req, res, next) => {
-//   res.render("ejs/add-product", {
-//     pageTitle: "Add Product"});
-// });
-
-// router.post("/product", (req, res, next) => {
-//   products.push({ title: req.body.title, price: req.body.price });
-//   res.redirect("/");
-// });
-
-///ejs
-// router.get("/add-product", (req, res, next) => {
-//   res.render("pug/add-product", {
-//     pageTitle: "Add Product"});
-// });
-
-// router.post("/product", (req, res, next) => {
-//   products.push({ title: req.body.title, price: req.body.price });
-//   res.redirect("/");
-// });
-
-///hbs
-router.get("/add-product", addProduct);
-
+// /admin/add-product => POST
 router.post("/add-product", postAddProduct);
 
+router.get("/edit-product/:productId", getEditProduct);
 
+router.post("/edit-product", postEditProduct);
 
+router.post("/delete-product", postDeleteProduct);
 
 export default router;

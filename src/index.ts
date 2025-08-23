@@ -4,9 +4,6 @@ import adminRoutes from "./routes/admin";
 import shopRoutes from "./routes/shop";
 import { engine } from "express-handlebars";
 import path from "path";
-import open from "open";
-import { exec } from "child_process";
-import { get } from "http";
 import { get404Page } from "./controllers/ErrorController";
 
 const app = express();
@@ -24,10 +21,11 @@ app.engine("hbs", engine({
   }
 }));
 
-app.set("view engine", "hbs");
-// app.set("view engine", "ejs");
+// app.set("view engine", "hbs");
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "views",'hbs'));
+// app.set("views", path.join(__dirname, "views",'hbs'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -39,7 +37,7 @@ app.use(get404Page);
 
 app.listen(3000, async () => {
   console.log("Server is running on http://localhost:3000");
- const url = "http://localhost:3000";
+  const url = "http://localhost:3000";
 
 //  switch (process.platform) {
 //     case "darwin": // Mac

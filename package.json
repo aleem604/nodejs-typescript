@@ -27,6 +27,8 @@
     "express-handlebars": "^8.0.1",
     "open": "^10.2.0",
     "pug": "^3.0.3",
+    "sequelize": "^6.37.7",
+    "tedious": "^18.6.1",
     "uuid": "^11.1.0"
   }
 }
