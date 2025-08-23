@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { products } from "../routes/admin";
+import { products } from "./../models/product";
 
 export const getAddProduct = (req: Request, res: Response) => {
   res.render("index", {
@@ -12,4 +12,3 @@ export const getAddProduct = (req: Request, res: Response) => {
     productCSS: true
   });
 }
-

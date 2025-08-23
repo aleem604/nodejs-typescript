@@ -4,8 +4,6 @@ import rootDir from '../util/path';
 import { addProduct, postAddProduct } from "./../controllers/AdminController";
 const router = express.Router();
 
-export const products: any[] = [];
-
 // router.get("/add-product", (req, res, next) => {
 //   res.sendFile(path.join(rootDir(), "views", "add-product.html"));
 // });
@@ -14,7 +12,7 @@ export const products: any[] = [];
 //   products.push({ title: req.body.title });
 //   console.log(products);
 //   res.redirect("/");
-// });
+// }); 
 
 ///ejs
 // router.get("/add-product", (req, res, next) => {
