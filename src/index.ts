@@ -5,6 +5,7 @@ import shopRoutes from "./routes/shop";
 import { engine } from "express-handlebars";
 import path from "path";
 import { get404Page } from "./controllers/ErrorController";
+import db from "./util/database";
 
 const app = express();
 
@@ -35,13 +36,16 @@ app.use(shopRoutes);
 app.use(get404Page);
 
 
-app.listen(3000, async () => {
+db.execute('select id from products limit 1;').then((res)=> {
+console.log(res[0]);
+
+  app.listen(3000, async () => {
   console.log("Server is running on http://localhost:3000");
   const url = "http://localhost:3000";
 
 //  switch (process.platform) {
 //     case "darwin": // Mac
-//       exec(`open ${url}`);
+//       exec(`open ${url}`); 
 //       break;
 //     case "win32": // Windows
 //       exec(`start ${url}`);
@@ -50,4 +54,7 @@ app.listen(3000, async () => {
 //       exec(`xdg-open ${url}`);
 //       break;
 //   }
+});
+}).catch(err => {
+  console.log('Failed to connect to the database:', err);
 });
