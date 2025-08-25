@@ -1,4 +1,4 @@
-import pool from "../util/database";
+import pool from "../../util/database";
 import mysql2 from "mysql2";
 
 export interface IUserEntity {

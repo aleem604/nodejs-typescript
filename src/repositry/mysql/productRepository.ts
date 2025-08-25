@@ -1,38 +1,40 @@
-import pool from "../util/database";
+import pool from "../../util/database";
 
 export interface IProductEntity {
-  id: number;
+  id?: number;
   title:string,
   imageUrl:string,
-  description:string
+  description:string,
+  price:number,
+  userId:number
 }
 
-export class UserRepository {
+export class ProductRepository {
   async getAll(): Promise<IProductEntity[]> {
     const [rows] = await pool.query<any[]>("SELECT * FROM products");
     return rows as IProductEntity[];
   }
 
-  async getById(id: number): Promise<IProductEntity[] | null> {
+  async getById(id: number): Promise<IProductEntity | null> {
     const [rows] = await pool.query<any[]>(
-      "SELECT * FROM users WHERE id = ?",
+      "SELECT * FROM products WHERE id = ?",
       [id]
     );
-    return rows.length ? rows[0] as Array<IProductEntity> : null;
+    return rows.length ? rows[0] as IProductEntity : null;
   }
 
   async create(entity: Omit<IProductEntity, "id">): Promise<number> {
     const [result]: any = await pool.execute(
-      "INSERT INTO products (title, description, imageUrl) VALUES (?, ?, ?)",
-      [entity.title, entity.description, entity.imageUrl]
+      "INSERT INTO products (title, description, imageUrl, price, userId) VALUES (?, ?, ?, ?, ?)",
+      [entity.title, entity.description, entity.imageUrl, entity.price, entity.userId]
     );
     return result.insertId; // returns new user ID
   }
 
   async update(id: number, entity: Partial<IProductEntity>): Promise<boolean> {
     const [result]: any = await pool.execute(
-      "UPDATE products SET title = ?, imageUrl = ?, description= ? WHERE id = ?",
-      [entity.title, entity.imageUrl, entity.description, id]
+      "UPDATE products SET title = ?, imageUrl = ?, description= ?, price = ? WHERE id = ?",
+      [entity.title, entity.imageUrl, entity.description, entity.price, id]
     );
     return result.affectedRows > 0;
   }
