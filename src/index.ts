@@ -6,10 +6,11 @@ import { engine } from "express-handlebars";
 import path from "path";
 import { get404Page } from "./controllers/ErrorController";
 import db from "./util/database";
-import { connectDB } from "./util/sequelizedb";
+import { sequelize } from "./util/sequelizedb";
+import syncDB from "./util/sync";
+import { User } from "./models/user.model";
 
 const app = express();
-connectDB();
 
 // Register Handlebars engine
 app.engine("hbs", engine({
@@ -38,25 +39,24 @@ app.use(shopRoutes);
 app.use(get404Page);
 
 
-db.execute('select id from products limit 1;').then((res)=> {
-console.log(res[0]);
-
-  app.listen(3000, async () => {
-  console.log("Server is running on http://localhost:3000");
-  const url = "http://localhost:3000";
-
-//  switch (process.platform) {
-//     case "darwin": // Mac
-//       exec(`open ${url}`); 
-//       break;
-//     case "win32": // Windows
-//       exec(`start ${url}`);
-//       break;
-//     case "linux": // Linux
-//       exec(`xdg-open ${url}`);
-//       break;
-//   }
-});
-}).catch(err => {
-  console.log('Failed to connect to the database:', err);
-});
+sequelize.sync()
+  .then(result => {
+    return User.findOne({ where: { email: 'aleem604@gmail.com' } });
+    // console.log(result);
+  })
+  .then(user => {
+    if (!user) {
+      return User.create({ name: 'Aleem', email: 'aleem604@gmail.com' });
+    }
+    return user;
+  })
+  // .then(user => {
+  //   // console.log(user);
+  //   return user.createCart();
+  // })
+  .then(cart => {
+    app.listen(3000);
+  })
+  .catch(err => {
+    console.log(err);
+  });
