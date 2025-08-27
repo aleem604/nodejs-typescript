@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import Product from "./../models/product";
-import { ProductRepository } from "../repositry/mysql/productRepository";
-import { CartRepository } from "../repositry/mysql/cartRepository";
-import { UserRepository } from "../repositry/mysql/userRepository";
+import { User } from "../models/user.model";
+import { Product } from "../models/product.model";
+import { Cart } from "../models/cart.model";
 
 export interface ICartEntity {
   id?: number;
@@ -13,10 +12,9 @@ export interface ICartEntity {
 }
 
 export const getProducts = async (req: Request, res: Response) => {
-  const repo = new ProductRepository();
 
   res.render("shop/product-list", {
-    prods: await repo.getAll(),
+    prods: await Product.findAll(),
     pageTitle: "All Products",
     path: "/products",
   });
@@ -27,10 +25,8 @@ export const getProduct = async (
   res: Response,
   next: NextFunction
 ) => {
-  const repo = new ProductRepository();
-
-  const prodId = req.params.productId;
-  const product = await repo.getById(+prodId);
+   const prodId = req.params.productId;
+  const product = await Product.findByPk(+prodId);
 
   res.render("shop/product-detail", {
     product: product,
@@ -44,10 +40,9 @@ export const getIndex = async (
   res: Response,
   next: NextFunction
 ) => {
-  const repo = new ProductRepository();
 
   res.render("shop/index", {
-    prods: await repo.getAll(),
+    prods: await Product.findAll(),
     pageTitle: "Shop",
     path: "/",
   });
@@ -58,10 +53,12 @@ export const getCart = async (
   res: Response,
   next: NextFunction
 ) => {
-  const cartRepo = new CartRepository();
-  const users = await new UserRepository().findAll();
+  const users = await User.findAll();
   const userId = users[0].id;
-  const cartProducts = await cartRepo.getCartByUser(userId);
+  const cartProducts = await Cart.findAll({
+    where: { userId: userId },
+    include: ["product", "user"],
+  });
 
   res.render("shop/cart", {
     path: "/cart",
@@ -75,18 +72,16 @@ export const postCart = async (
   res: Response,
   next: NextFunction
 ) => {
-  const productRepo = new ProductRepository();
-  const users = await new UserRepository().findAll();
+  const users = await User.findAll();
   const userId = users[0].id;
-  const cartRepo = new CartRepository();
   const prodId = req.body.productId;
-  const product = await productRepo.getById(+prodId);
+  const product = await Product.findByPk(+prodId);
 
-  await cartRepo.addToCart({
+  await Cart.create({
     productId: product.id,
     userId: userId,
     quantity: 1,
-  } as ICartEntity);
+  });
 
   res.redirect("/cart");
 };
@@ -97,7 +92,7 @@ export const postCartDeleteProduct = async (
   next: NextFunction
 ) => {
   const cartId = req.body.productId;
-  await new CartRepository().removeFromCart(cartId);
+  await Cart.destroy({ where: { id: cartId }, limit: 1 });
 
   res.redirect("/cart");
 };

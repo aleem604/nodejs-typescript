@@ -6,8 +6,10 @@ import { engine } from "express-handlebars";
 import path from "path";
 import { get404Page } from "./controllers/ErrorController";
 import db from "./util/database";
+import { connectDB } from "./util/sequelizedb";
 
 const app = express();
+connectDB();
 
 // Register Handlebars engine
 app.engine("hbs", engine({
