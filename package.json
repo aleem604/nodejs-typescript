@@ -8,7 +8,8 @@
     "start": "ts-node src/index.ts",
     "start:dev": "nodemon ./src/index.ts",
     "seed": "ts-node ./src/util/seed.ts",
-    "seed:models": "ts-node ./src/util/seed-sequelize.ts"
+    "seed:models": "ts-node ./src/util/seed-sequelize.ts",
+    "seed:mongo": "ts-node ./src/util/mongo-sync.ts"
   },
   "author": "",
   "license": "ISC",

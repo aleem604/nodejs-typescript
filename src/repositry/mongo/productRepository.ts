@@ -19,6 +19,11 @@ export class ProductRepository {
     return { ...product, _id: result.insertedId };
   }
 
+   async createMany(products: Product[]): Promise<void> {
+    const db = getDB();
+    const result = await db.collection<Product>(this.collectionName).insertMany(products);
+  }
+
   async findAll(): Promise<Product[]> {
     const db = getDB();
     return db.collection<Product>(this.collectionName).find().toArray();

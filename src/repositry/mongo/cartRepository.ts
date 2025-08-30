@@ -15,7 +15,6 @@ export interface ICartEntity {
   userId: string; // references user._id
   quantity: number;
   dateCreated?: Date;
-  items: ICartItemEntity[]; // For embedding cart items
 }
 
 export class CartRepository {

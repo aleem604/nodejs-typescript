@@ -16,6 +16,8 @@ export class UserRepository {
   // ✅ Create a new user
   async create(user: IUserEntity): Promise<IUserEntity> {
     const db = getDB();
+
+    console.log("Creating user:", db);
     const result = await db.collection<IUserEntity>(this.collectionName).insertOne(user);
     return { ...user, _id: result.insertedId };
   }

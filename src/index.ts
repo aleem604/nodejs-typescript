@@ -6,6 +6,7 @@ import { engine } from "express-handlebars";
 import path from "path";
 import { get404Page } from "./controllers/ErrorController";
 import mongoConnect from "./util/mongoClient";
+import mongoSeed from "./util/mongo-sync";
 
 const app = express();
 
@@ -40,7 +41,7 @@ app.use(get404Page);
 
 mongoConnect(() => {
   app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+    console.log("Server is running on http://localhost:3000");
+    mongoSeed().catch(console.error);
+  });
 });
-});
-
