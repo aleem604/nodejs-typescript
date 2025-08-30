@@ -1,49 +1,58 @@
-import pool from "../../util/database";
+import { ObjectId } from "mongodb";
+import { getDB } from "../../util/mongoClient";
 
 export interface IProductEntity {
-  id?: number;
-  title:string,
-  imageUrl:string,
-  description:string,
-  price:number,
-  userId:number
+  _id?: ObjectId;
+  title: string;
+  imageUrl: string;
+  description: string;
+  price: number;
+  userId: ObjectId; // reference to User _id
 }
 
 export class ProductRepository {
+  private collectionName = "products";
+
+  // ✅ Get all products
   async getAll(): Promise<IProductEntity[]> {
-    const [rows] = await pool.query<any[]>("SELECT * FROM products");
-    return rows as IProductEntity[];
+    const db = getDB();
+    return db.collection<IProductEntity>(this.collectionName).find().toArray();
   }
 
-  async getById(id: number): Promise<IProductEntity | null> {
-    const [rows] = await pool.query<any[]>(
-      "SELECT * FROM products WHERE id = ?",
-      [id]
-    );
-    return rows.length ? rows[0] as IProductEntity : null;
+  // ✅ Get product by ID
+  async getById(id: string): Promise<IProductEntity | null> {
+    const db = getDB();
+    return db
+      .collection<IProductEntity>(this.collectionName)
+      .findOne({ _id: new ObjectId(id) });
   }
 
-  async create(entity: Omit<IProductEntity, "id">): Promise<number> {
-    const [result]: any = await pool.execute(
-      "INSERT INTO products (title, description, imageUrl, price, userId) VALUES (?, ?, ?, ?, ?)",
-      [entity.title, entity.description, entity.imageUrl, entity.price, entity.userId]
-    );
-    return result.insertId; // returns new user ID
+  // ✅ Create new product
+  async create(entity: Omit<IProductEntity, "_id">): Promise<ObjectId> {
+    const db = getDB();
+    const result = await db.collection<IProductEntity>(this.collectionName).insertOne({
+      ...entity,
+      userId: new ObjectId(entity.userId), // ensure userId is stored as ObjectId
+    });
+    return result.insertedId;
   }
 
-  async update(id: number, entity: Partial<IProductEntity>): Promise<boolean> {
-    const [result]: any = await pool.execute(
-      "UPDATE products SET title = ?, imageUrl = ?, description= ?, price = ? WHERE id = ?",
-      [entity.title, entity.imageUrl, entity.description, entity.price, id]
+  // ✅ Update product
+  async update(id: string, entity: Partial<IProductEntity>): Promise<boolean> {
+    const db = getDB();
+    const result = await db.collection<IProductEntity>(this.collectionName).updateOne(
+      { _id: new ObjectId(id) },
+      { $set: entity }
     );
-    return result.affectedRows > 0;
+    return result.modifiedCount > 0;
   }
 
-  async delete(id: number): Promise<boolean> {
-    const [result]: any = await pool.execute(
-      "DELETE FROM products WHERE id = ?",
-      [id]
-    );
-    return result.affectedRows > 0;
+  // ✅ Delete product
+  async delete(id: string): Promise<boolean> {
+    const db = getDB();
+    const result = await db.collection<IProductEntity>(this.collectionName).deleteOne({
+      _id: new ObjectId(id),
+    });
+    return result.deletedCount > 0;
   }
 }
